@@ -185,6 +185,33 @@ public class PermissionServiceUnitTest {
 
     }
 
+    @Test
+    public void getOneGroupTest(){
+//        arrange
+        Long groupId = 1L;
+
+        Role role = new Role();
+        role.setName("view");
+        role.setId(1L);
+
+        Set<Role> initialRoles = new HashSet<>();
+        initialRoles.add(role);
+
+        Group group = new Group();
+        group.setName("User");
+        group.setRoles(initialRoles);
+        group.setId(1L);
+
+//        mock behaviour of group repository
+        Mockito.when(groupRepository.findById(groupId)).thenReturn(Optional.of(group));
+
+        Group result = serviceImp.getOneGroup(groupId);
+
+        assertNotNull(result);
+        assertEquals(result.getId(), group.getId() );
+
+
+    }
 
 
 
