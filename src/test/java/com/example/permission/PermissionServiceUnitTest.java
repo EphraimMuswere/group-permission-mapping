@@ -213,6 +213,35 @@ public class PermissionServiceUnitTest {
 
     }
 
+    @Test(expected = RuntimeException.class)
+    public void getOneGroup_shouldThrowRuntimeExceptionWhenRoleNotFound(){
+//        arrange
+        Long groupId = 1L;
+        Long groupId1 = 999L;
+
+        Role role = new Role();
+        role.setName("view");
+        role.setId(1L);
+
+        Set<Role> initialRoles = new HashSet<>();
+        initialRoles.add(role);
+
+        Group group = new Group();
+        group.setName("User");
+        group.setRoles(initialRoles);
+        group.setId(1L);
+
+//        mock behaviour of group repository
+        Mockito.when(groupRepository.findById(groupId)).thenReturn(Optional.empty());
+
+        Group result = serviceImp.getOneGroup(groupId1);
+
+        assertNull(result);
+
+
+    }
+
+
 
 
 
