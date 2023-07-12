@@ -125,7 +125,6 @@ public class PermissionServiceUnitTest {
 
 //        act
         Mockito.when(groupRepository.findById(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(roleRepository.findById(roleId)).thenReturn(Optional.of(role));
         Mockito.when(roleRepository.findById(role1.getId())).thenReturn(Optional.of(role1));
         Mockito.when(roleRepository.findById(role2.getId())).thenReturn(Optional.of(role2));
         Mockito.when(groupRepository.save(group)).thenReturn(group);
@@ -177,10 +176,7 @@ public class PermissionServiceUnitTest {
 
 //        act
         Mockito.when(groupRepository.findById(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(roleRepository.findById(roleId)).thenReturn(Optional.of(role));
         Mockito.when(roleRepository.findById(role1.getId())).thenReturn(Optional.of(role1));
-
-        Mockito.when(groupRepository.save(group)).thenReturn(group);
 
         Group group1 = serviceImp.addRoles(groupId, roleIds);
 
