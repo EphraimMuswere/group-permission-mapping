@@ -43,6 +43,12 @@ public class ServiceImp implements PermissionService {
         group.getRoles().addAll(roleSet);
         return groupRepository.save(group);
     }
+
+    @Override
+    public List<Group> getAllGroups() {
+        return groupRepository.findAll();
+    }
+
     @Override
     public Group getOneGroup(Long groupId) {
         return groupRepository.findById(groupId).orElseThrow(()->new RuntimeException("Group not found with id: "+groupId));
