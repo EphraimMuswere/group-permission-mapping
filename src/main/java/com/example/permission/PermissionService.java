@@ -9,4 +9,5 @@ public interface PermissionService {
     Group createGroup(GroupDtoPost groupDtoPost);
 
     Group addRoles(Long id, List<Long> roleIds);
+    Group getOneGroup(Long groupId);
 }
