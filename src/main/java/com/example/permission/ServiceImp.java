@@ -22,6 +22,7 @@ public class ServiceImp implements PermissionService {
     @Override
     public Role createRole(RolePost role) {
         return roleRepository.save(roleMapper.dtoToRole(role));
+
     }
 
     @Override
@@ -33,14 +34,13 @@ public class ServiceImp implements PermissionService {
     public Group addRoles(Long id, List<Long> roleIds) {
         Group group = groupRepository.findById(id).orElseThrow(()->new RuntimeException("Group not found: " + id));
 
-        Set<Role> roleSet = new HashSet<>(group.getRoles());
+        Set<Role> roleSet = new HashSet<>();
 
         for(Long role: roleIds){
             roleSet.add(roleRepository.findById(role).orElseThrow(()->new RuntimeException("Role not found: "+ role)));
         }
 
-        group.setRoles(roleSet);
-        roleSet.clear();
+        group.getRoles().addAll(roleSet);
         return groupRepository.save(group);
     }
 }

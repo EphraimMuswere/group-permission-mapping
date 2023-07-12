@@ -136,6 +136,55 @@ public class PermissionServiceUnitTest {
         assertNotNull(result);
         assertEquals(result.getRoles(), group.getRoles());
         assertEquals(result.getRoles().size(), group.getRoles().size());
+        assertTrue(result.getRoles().contains(role1));
+        assertFalse(result.getRoles().isEmpty());
+        assertEquals(3, result.getRoles().size());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void addRoles_shouldThrowRuntimeExceptionWhenRoleNotFound(){
+//        arrange
+        Role role = new Role();
+        role.setName("view");
+        role.setId(1L);
+
+        Role role1 = new Role();
+        role1.setName("edit");
+        role1.setId(2L);
+
+        Role role2 = new Role();
+        role2.setName("delete");
+        role2.setId(3L);
+
+        Set<Optional<Role>> roleSet = new HashSet<>();
+        roleSet.add(Optional.of(role1));
+        roleSet.add(Optional.of(role2));
+
+        Set<Role> initialRoles = new HashSet<>();
+        initialRoles.add(role);
+
+        Long groupId = 1L;
+        Long roleId = 1L;
+
+        List<Long> roleIds = new ArrayList<>();
+        roleIds.add(2L);
+        roleIds.add(3L);
+
+        Group group = new Group();
+        group.setName("User");
+        group.setRoles(initialRoles);
+        group.setId(1L);
+
+//        act
+        Mockito.when(groupRepository.findById(groupId)).thenReturn(Optional.of(group));
+        Mockito.when(roleRepository.findById(roleId)).thenReturn(Optional.of(role));
+        Mockito.when(roleRepository.findById(role1.getId())).thenReturn(Optional.of(role1));
+
+        Mockito.when(groupRepository.save(group)).thenReturn(group);
+
+        Group group1 = serviceImp.addRoles(groupId, roleIds);
+
+//        assert
         assertNotNull(group1);
 
     }
